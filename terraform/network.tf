@@ -5,9 +5,11 @@ resource "google_compute_network" "vpc" {
   auto_create_subnetworks = false
 }
 
-# Create NAT and Router
+# Create NAT and Routers
 resource "google_compute_router" "nat_router" {
-  name    = "${data.google_project.project.project_id}-nat-router"
+  count   = length(var.subnet_list)
+  name    = "${var.subnet_list[count.index]["name"]}-nat-gw"
+  region  = var.subnet_list[count.index]["region"]
   network = google_compute_network.vpc.id
 
   bgp {
@@ -15,10 +17,12 @@ resource "google_compute_router" "nat_router" {
   }
 }
 
+
 resource "google_compute_router_nat" "nat_gateway" {
-  name                               = "${data.google_project.project.project_id}-nat"
-  router                             = google_compute_router.nat_router.name
-  region                             = google_compute_router.nat_router.region
+  count                              = length(var.subnet_list)
+  name                               = "${var.subnet_list[count.index]["name"]}-nat-gw"
+  router                             = google_compute_router.nat_router[count.index].name
+  region                             = var.subnet_list[count.index]["region"]
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
 
@@ -28,7 +32,7 @@ resource "google_compute_router_nat" "nat_gateway" {
   }
 }
 
-# regional subnets 
+# subnets configuration
 resource "google_compute_subnetwork" "subnets" {
   count                    = length(var.subnet_list)
   name                     = var.subnet_list[count.index]["name"]

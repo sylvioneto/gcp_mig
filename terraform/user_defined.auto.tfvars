@@ -22,14 +22,3 @@ subnet_list = [
     cidr   = "10.0.2.0/24",
   },
 ]
-
-# install nginx to test our load balancer
-startup_script = <<EOT
-  #!/bin/bash
-  curl -sSO https://dl.google.com/cloudagents/install-monitoring-agent.sh
-  sudo bash install-monitoring-agent.sh
-  curl -sSO https://dl.google.com/cloudagents/install-logging-agent.sh
-  sudo bash install-logging-agent.sh
-  sudo apt-get -yq update
-  sudo apt-get -yq install nginx
-  EOT

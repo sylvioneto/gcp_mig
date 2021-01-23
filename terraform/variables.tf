@@ -64,7 +64,11 @@ variable "preemptible" {
 
 variable "startup_script" {
   description = "Startup script. By default it installs Cloud Logging and Cloud Monitoring agents"
-  default     = ""
+  default     = <<EOT
+  #!/bin/bash
+  sudo apt-get -y update
+  sudo apt-get -y install nginx
+  EOT
 }
 
 variable "image" {

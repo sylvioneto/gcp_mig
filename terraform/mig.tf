@@ -8,12 +8,12 @@ resource "google_compute_instance_template" "template" {
   region                  = var.subnet_list[count.index]["region"]
   tags                    = var.tags
   labels                  = local.resource_labels
-
+  
   scheduling {
     automatic_restart = false
     preemptible       = var.preemptible
   }
-  
+
   disk {
     source_image = var.image
     auto_delete  = true
@@ -23,10 +23,6 @@ resource "google_compute_instance_template" "template" {
   network_interface {
     network    = var.vpc
     subnetwork = var.subnet_list[count.index]["name"]
-  }
-
-  metadata = {
-    "region" = var.subnet_list[count.index]["name"]
   }
 
   lifecycle {
