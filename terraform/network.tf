@@ -30,10 +30,17 @@ resource "google_compute_router_nat" "nat_gateway" {
 
 # regional subnets 
 resource "google_compute_subnetwork" "subnets" {
-  count =                 length(var.subnet_list)
+  count                    = length(var.subnet_list)
   name                     = var.subnet_list[count.index]["name"]
   ip_cidr_range            = var.subnet_list[count.index]["cidr"]
   region                   = var.subnet_list[count.index]["region"]
   network                  = google_compute_network.vpc.name
   private_ip_google_access = true
+}
+
+# load balancer setup
+resource "google_compute_address" "ingress_external_ip" {
+  name         = "${var.mig_name}-ingress"
+  description  = "Load Balancer IP for ${var.mig_name} Managed Instange Group"
+  address_type = "EXTERNAL"
 }

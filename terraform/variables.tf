@@ -1,6 +1,6 @@
 locals {
   _labels = {
-    project   = "demo-multi-region",
+    project = "demo-multi-region",
   }
   resource_labels = merge(local._labels, var.resource_labels)
 }
@@ -31,9 +31,25 @@ variable "vpc_cidr" {
 variable "subnet_list" {
   type        = list(map(any))
   description = "Subnet config list. Please look at the readme.md for examples."
-  default = []
+  default     = []
 }
 
+variable "resource_labels" {
+  description = "Resource labels"
+  default     = {}
+}
+
+variable "tags" {
+  description = "Network tags"
+  default     = ["allow-iap-ssh"]
+}
+
+
+# MIG variables
+variable "mig_name" {
+  type        = string
+  description = "MIG name"
+}
 variable "machine_type" {
   type        = string
   description = "GCP machine type"
@@ -46,12 +62,12 @@ variable "preemptible" {
   default     = true
 }
 
-variable "resource_labels" {
-  description = "Resource labels"
-  default     = {}
+variable "startup_script" {
+  description = "Startup script. By default it installs Cloud Logging and Cloud Monitoring agents"
+  default     = ""
 }
 
-variable "tags" {
-  description = "Network tags"
-  default     = []
+variable "image" {
+  description = "OS Image"
+  default     = "debian-cloud/debian-10"
 }

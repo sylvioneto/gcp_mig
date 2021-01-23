@@ -1,9 +1,3 @@
-resource "google_compute_address" "ingress_external_ip" {
-  name         = "ingress-nginx"
-  description  = "Load balancer IP"
-  address_type = "EXTERNAL"
-}
-
 resource "google_dns_managed_zone" "public" {
   name = "public"
 
@@ -11,7 +5,7 @@ resource "google_dns_managed_zone" "public" {
   description   = "Public zone"
   visibility    = "public"
   force_destroy = true
-  labels        = var.resource_labels
+  labels        = local.resource_labels
 }
 
 resource "google_dns_record_set" "root" {
