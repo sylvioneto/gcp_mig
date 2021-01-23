@@ -42,4 +42,14 @@ resource "google_compute_region_instance_group_manager" "instance_group" {
     instance_template = google_compute_instance_template.template[count.index].id
     name              = var.mig_name
   }
+  
+  named_port {
+    name = "http"
+    port = 80
+  }
+  
+  named_port {
+    name = "https"
+    port = 443
+  }
 }

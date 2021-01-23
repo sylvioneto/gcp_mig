@@ -41,10 +41,3 @@ resource "google_compute_subnetwork" "subnets" {
   network                  = google_compute_network.vpc.name
   private_ip_google_access = true
 }
-
-# load balancer setup
-resource "google_compute_address" "ingress_external_ip" {
-  name         = "${var.mig_name}-ingress"
-  description  = "Load Balancer IP for ${var.mig_name} Managed Instange Group"
-  address_type = "EXTERNAL"
-}
