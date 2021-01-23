@@ -14,10 +14,6 @@ variable "region" {
   default     = "us-central1"
 }
 
-variable "dns_name" {
-  description = "Public DNS name, e.g sandbox.mydomain.com"
-}
-
 variable "vpc" {
   type        = string
   description = "VPC name or self-link"
