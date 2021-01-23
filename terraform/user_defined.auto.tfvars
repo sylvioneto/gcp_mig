@@ -1,6 +1,5 @@
 
 project_id = "spedroza-test-multiregion"
-dns_name   = "sandbox.sneto.ca"
 vpc        = "demo-multi-region"
 mig_name   = "demo-multi-region"
 
