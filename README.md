@@ -1,4 +1,4 @@
-# GCP MIG
+# GCP Managed Instance Groups with Global Load Balancer
 
 This project demonstrates how to deploy a Global Load Balancer with two regional Managed Instance Groups as backends.
 
