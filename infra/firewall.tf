@@ -1,16 +1,3 @@
-resource "google_compute_firewall" "allow_internal_all" {
-  name          = "allow-internal-all"
-  description   = "Allow all between VPC instances"
-  network       = google_compute_network.vpc.self_link
-  direction     = "INGRESS"
-  source_ranges = [var.vpc_cidr]
-
-  allow {
-    protocol = "all"
-    ports    = []
-  }
-}
-
 resource "google_compute_firewall" "allow_external_ssh" {
   name        = "allow-iap-ssh"
   description = "Allow SSH to the instances from external source"
@@ -30,7 +17,7 @@ resource "google_compute_firewall" "allow_external_ssh" {
 
 resource "google_compute_firewall" "allow_ingress_http" {
   name          = "allow-http"
-  description   = "Allow HTTP ingress traffic from the internet"
+  description   = "Allow HTTP and HTTPS ingress traffic from the internet"
   network       = google_compute_network.vpc.self_link
   direction     = "INGRESS"
   source_ranges = ["0.0.0.0/0"]

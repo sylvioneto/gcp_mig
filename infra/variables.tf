@@ -1,51 +1,50 @@
-locals {
-  _labels = {
-    project = "demo-multi-region",
-  }
-  resource_labels = merge(local._labels, var.resource_labels)
-}
-
 variable "project_id" {
-  description = "Google Project ID"
+  description = "Project ID"
 }
 
 variable "region" {
-  description = "Region used by default in all regional resources. https://cloud.google.com/compute/docs/regions-zones"
+  description = "Main region used by default in all regional resources. https://cloud.google.com/compute/docs/regions-zones"
   default     = "us-central1"
 }
 
 variable "vpc" {
   type        = string
   description = "VPC name or self-link"
-}
-
-variable "vpc_cidr" {
-  description = "VPC CIDR"
-  default     = "10.0.0.0/8"
+  default     = "vpc-test"
 }
 
 variable "subnet_list" {
   type        = list(map(any))
   description = "Subnet config list. Please look at the readme.md for examples."
-  default     = []
+  default = [
+    {
+      name   = "usa"
+      region = "us-east1",
+      cidr   = "10.0.1.0/24",
+    },
+    {
+      name   = "brazil"
+      region = "southamerica-east1",
+      cidr   = "10.0.2.0/24",
+    },
+  ]
+
 }
 
 variable "resource_labels" {
   description = "Resource labels"
-  default     = {}
+  default = {
+    terraform   = "true"
+    cost-center = "training"
+    env         = "sandbox"
+  }
 }
 
-variable "tags" {
-  description = "Network tags"
-  default     = ["allow-iap-ssh"]
-}
-
-
-# MIG variables
 variable "mig_name" {
-  type        = string
-  description = "MIG name"
+  type    = string
+  default = "nginx"
 }
+
 variable "machine_type" {
   type        = string
   description = "GCP machine type"
@@ -69,5 +68,5 @@ variable "startup_script" {
 
 variable "image" {
   description = "OS Image"
-  default     = "debian-cloud/debian-10"
+  default     = "debian-cloud/debian-11"
 }

@@ -1,18 +1,16 @@
 resource "google_compute_global_forwarding_rule" "http_lb" {
-  provider    = google-beta
-  name        = "${var.mig_name}-fwd-rule"
-  port_range  = "80"
-  target      = google_compute_target_http_proxy.http_proxy.id
+  name       = "${var.mig_name}-fwd-rule"
+  port_range = "80"
+  target     = google_compute_target_http_proxy.http_proxy.id
 }
 
 resource "google_compute_target_http_proxy" "http_proxy" {
-  provider = google-beta
-  name     = "${var.mig_name}-forwarding-rule-proxy"
+  name     = "${var.mig_name}-fwd-rule-proxy"
   url_map  = google_compute_url_map.http_map.id
 }
 
 resource "google_compute_url_map" "http_map" {
-  provider        = google-beta
+  project = var.project_id
   name            = "${var.mig_name}-map"
   default_service = google_compute_backend_service.http_backend.id
 }
